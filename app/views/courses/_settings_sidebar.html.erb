@@ -58,13 +58,6 @@
     <% end %>
   <% end %>
 
-  <% if can_do(@context, @current_user, :read) %>
-    <%= link_to context_url(@context, :course_content_exports_url), :class => 'btn button-sidebar-wide' do %>
-      <i class="icon-download"></i>
-      <%= t('links.export_content', 'Export Course Content') %>
-    <% end %>
-  <% end %>
-
   <% if can_do(@context, @current_user, :reset_content) %>
     <%= link_to context_url(@context, :course_reset_url), :class => 'btn button-sidebar-wide reset_course_content_button' do %>
       <i class="icon-reset"></i>
