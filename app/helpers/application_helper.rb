@@ -152,7 +152,7 @@ module ApplicationHelper
     puts "********enrollment type*********"
     user.enrollments.each do |enrollment|
       puts enrollment.sis_type
-      if enrollment.sis_type == 'DesignerEnrollment'
+      if enrollment.sis_type == 'designer'
         return true
       end
     end
