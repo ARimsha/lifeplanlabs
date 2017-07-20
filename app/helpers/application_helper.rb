@@ -147,6 +147,17 @@ module ApplicationHelper
     object.grants_any_right?(user, session, *actions)
   end
 
+  def can_export_import(user)
+    return false unless user
+    puts "********enrollment type*********"
+    user.enrollments.each do |enrollment|
+      puts enrollment.sis_type
+      if enrollment.sis_type == 'DesignerEnrollment'
+        return true
+      end
+    end
+    return false
+  end
   # Loads up the lists of files needed for the wiki_sidebar.  Called from
   # within the cached code so won't be loaded unless needed.
   def load_wiki_sidebar
