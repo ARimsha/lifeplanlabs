@@ -53,7 +53,7 @@
 
   <% if can_do(@context, @current_user, :manage_content, :manage_files, :manage_quizzes) %>
     <% if can_export_import(@current_user) %>
-      <%= link_to context_url(@context, :context_content_migrations_url), :class => 'Button Button--link Button--link--has-divider import_content' do %>
+      <%= link_to context_url(@context, :context_content_migrations_url), :class => 'btn button-sidebar-wide import_content' do %>
         <i class="icon-upload"></i>
         <%= t('links.import', 'Import Course Content') %>
       <% end %>
@@ -62,7 +62,7 @@
 
   <% if can_do(@context, @current_user, :read) %>
     <% if can_export_import(@current_user) %>
-      <%= link_to context_url(@context, :course_content_exports_url), :class => 'Button Button--link Button--link--has-divider' do %>
+      <%= link_to context_url(@context, :course_content_exports_url), :class => 'btn button-sidebar-wide' do %>
         <i class="icon-download"></i>
         <%= t('links.export_content', 'Export Course Content') %>
       <% end %>  
