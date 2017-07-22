@@ -22,32 +22,38 @@
   <% end %>
 
   <% if can_do(@context, @current_user, :change_course_state) %>
-    <% if @context.completed? %>
-      <%= form_tag context_url(@context, :context_unconclude_url) do %>
-        <button class="btn button-sidebar-wide" type="submit">
-          <i class="icon-add"></i>
-          <%= t('buttons.unconclude', 'Un-Conclude Course') %>
-        </button>
-      <% end %>
-    <% elsif !@context.soft_concluded? %>
-      <%= link_to context_url(@context, :context_confirm_action_url, :event => 'conclude'), :class => 'btn button-sidebar-wide' do %>
-        <i class="icon-lock"></i>
-        <%= t('links.conclude', 'Conclude this Course') %>
+    <% if can_export_import(@current_user) %>
+      <% if @context.completed? %>
+        <%= form_tag context_url(@context, :context_unconclude_url) do %>
+          <button class="btn button-sidebar-wide" type="submit">
+            <i class="icon-add"></i>
+            <%= t('buttons.unconclude', 'Un-Conclude Course') %>
+          </button>
+        <% end %>
+      <% elsif !@context.soft_concluded? %>
+        <%= link_to context_url(@context, :context_confirm_action_url, :event => 'conclude'), :class => 'btn button-sidebar-wide' do %>
+          <i class="icon-lock"></i>
+          <%= t('links.conclude', 'Conclude this Course') %>
+        <% end %>
       <% end %>
     <% end %>
   <% end %>
 
   <% if can_do(@context, @current_user, :delete) && !@context.deleted? %>
-    <%= link_to context_url(@context, :context_confirm_action_url, :event => 'delete'), :class => 'btn button-sidebar-wide delete_course_link' do %>
-      <i class="icon-trash"></i>
-      <%= t('links.delete', 'Permanently Delete this Course') %>
+    <% if can_export_import(@current_user) %>
+      <%= link_to context_url(@context, :context_confirm_action_url, :event => 'delete'), :class => 'btn button-sidebar-wide delete_course_link' do %>
+        <i class="icon-trash"></i>
+        <%= t('links.delete', 'Permanently Delete this Course') %>
+      <% end %>
     <% end %>
   <% end %>
 
   <% if can_do(@context, @current_user, :read) && show_user_create_course_button(@current_user, @context.account) %>
-    <%= link_to context_url(@context, :context_start_copy_url), :class => 'btn button-sidebar-wide copy_course_link' do %>
-      <i class="icon-copy-course"></i>
-      <%= t('links.copy', 'Copy this Course') %>
+    <% if can_export_import(@current_user) %>
+      <%= link_to context_url(@context, :context_start_copy_url), :class => 'btn button-sidebar-wide copy_course_link' do %>
+        <i class="icon-copy-course"></i>
+        <%= t('links.copy', 'Copy this Course') %>
+      <% end %>
     <% end %>
   <% end %>
 
@@ -70,25 +76,27 @@
   <% end %>
 
   <% if can_do(@context, @current_user, :reset_content) %>
-    <%= link_to context_url(@context, :course_reset_url), :class => 'btn button-sidebar-wide reset_course_content_button' do %>
-      <i class="icon-reset"></i>
-      <%= t('links.reset', 'Reset Course Content') %>
-    <% end %>
-
-    <div <%= hidden(true) %> id="reset_course_content_dialog">
-      <p><%= mt('help.reset_course_content', 'Resetting course content will permanently delete all associated assignments, discussions, quizzes, modules, rubrics, pages, files, learning outcomes, question banks, collaborations, conferences, or any other content. This action is irreversible, and the data *cannot* be recovered. Are you sure you wish to continue?') %></p>
-
-      <%= form_for @context, :url => context_url(@context, :course_reset_url), :html => { :method => :post } do %>
-        <div class="button-container">
-          <button type="button" class="btn cancel_button">
-            <%= t('#buttons.cancel', 'Cancel') %>
-          </button>
-          <button type="submit" class="btn btn-danger submit_button">
-            <%= t('buttons.reset', 'Reset Course Content') %>
-          </button>
-        </div>
+    <% if can_export_import(@current_user) %>
+      <%= link_to context_url(@context, :course_reset_url), :class => 'btn button-sidebar-wide reset_course_content_button' do %>
+        <i class="icon-reset"></i>
+        <%= t('links.reset', 'Reset Course Content') %>
       <% end %>
-    </div>
+
+      <div <%= hidden(true) %> id="reset_course_content_dialog">
+        <p><%= mt('help.reset_course_content', 'Resetting course content will permanently delete all associated assignments, discussions, quizzes, modules, rubrics, pages, files, learning outcomes, question banks, collaborations, conferences, or any other content. This action is irreversible, and the data *cannot* be recovered. Are you sure you wish to continue?') %></p>
+
+        <%= form_for @context, :url => context_url(@context, :course_reset_url), :html => { :method => :post } do %>
+          <div class="button-container">
+            <button type="button" class="btn cancel_button">
+              <%= t('#buttons.cancel', 'Cancel') %>
+            </button>
+            <button type="submit" class="btn btn-danger submit_button">
+              <%= t('buttons.reset', 'Reset Course Content') %>
+            </button>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
   <% end %>
 
   <% if can_do(@context, @current_user, :manage_content) %>
